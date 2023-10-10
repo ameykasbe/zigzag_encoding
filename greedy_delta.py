@@ -83,8 +83,6 @@ def _16_bits_encoding(start, end):
 def main():
     _3_bits_encoding(0, 0)
     
-	
-
 
 if __name__ == "__main__":
 	main()
