@@ -1,0 +1,51 @@
+is_in_range_3
+is_in_range_4
+is_in_range_8
+is_in_range_10
+is_in_range_16
+
+
+
+start = 0
+end = 0
+
+def is_possible_3_encoding_samples(start, end)
+	while():
+		if end - start == 10: # Represents the number of samples
+			send 10 samples with 3 bits encoding
+			begin again with new start and new end
+			
+		if array[end].is_in_range_3 == True: 
+
+			# Increment number of samples
+			end += 1
+
+		else:
+			# Not possible to encode the next sample with 3 bits				
+				is_possible_4_encoding_samples(start, end)
+		
+
+def is_possible_4_encoding_samples(start, end)
+	while():
+		if end - start > 8:
+			# i.e. the number of samples are between the range of 10 samples (3 bits) and 8 samples (4 bits)
+			end = start + 8
+			send 8 samples with 4 bits encoding
+			begin again with new start and new end
+
+		if end - start == 8: 
+			send 8 samples with 4 bits encoding
+			begin again with new start and new end
+			
+		if array[end].is_in_range_4 == True: 
+			end += 1
+		else:
+			is_possible_8_encoding_samples(start, end)
+
+
+def is_possible_8_encoding_samples(start, end):
+	while():
+		...
+
+
+		
