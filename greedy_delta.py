@@ -9,8 +9,8 @@ def is_in_range_10(value):
 def is_in_range_16(value):
     return value >= -32768 and value <= 32767
 
-#                     3 bits                       3 bits                                       4 bits                       3 bits
-array = [-2, 1, -3, -4, -2, 2, -3, 1, 1, -4,   2, -3, -2, 1, 2, -3, -2, 1, 2, -3,      3, -4, 5, -6, 7, -8, 2, 1,    2, -3, -2, 1, 2, -3, -2, 1, 2, -3, ]
+#                     3 bits                       3 bits                                       4 bits                       3 bits                             8 bits              10 bits             16 bit             16 bit                   3 bits
+array = [-2, 1, -3, -4, -2, 2, -3, 1, 1, -4,   2, -3, -2, 1, 2, -3, -2, 1, 2, -3,      3, -4, 5, -6, 7, -8, 2, 1,    2, -3, -2, 1, 2, -3, -2, 1, 2, -3,    -100, 100, -7, 2,     -500, 500, 2,      2, -30000,         -500, -30000,       2, 2, -2, -1, 0, 0, 0, 1, 2, -2]
         
 def is_possible_3_encoding_samples(start, end):
     
@@ -32,7 +32,7 @@ def is_possible_3_encoding_samples(start, end):
 def is_possible_4_encoding_samples(start, end):
     while(end < len(array)):
         if end - start + 1 >= 8: # Represents the number of samples
-            end = start + 8 - 1
+            end = start + 8 - 1 # Fixing end if sample size is >8
             print("4 bit encoding: ", array[start:end+1]) # send 8 samples [start, end] with 4 bits encoding
             (start, end) = is_possible_3_encoding_samples(end + 1, end+1) # begin again with new start and new end
             
@@ -42,15 +42,44 @@ def is_possible_4_encoding_samples(start, end):
             (start, end) = is_possible_8_encoding_samples(start, end) # Not possible to encode the next sample with 4 bits
     return (start, end)	
 
-
 def is_possible_8_encoding_samples(start, end):
-	pass
+    while(end < len(array)):
+        if end - start + 1 >= 4: # Represents the number of samples
+            end = start + 4 - 1 # Fixing end if sample size is >4
+            print("8 bit encoding: ", array[start:end+1]) # send 4 samples [start, end] with 8 bit encoding
+            (start, end) = is_possible_3_encoding_samples(end + 1, end+1) # begin again with new start and new end
+        elif is_in_range_8(array[end]): 
+            end += 1 # Increment number of samples
+        else:
+            (start, end) = is_possible_10_encoding_samples(start, end) # Not possible to encode the next sample with 4 bits
+    return (start, end)	
 
 def is_possible_10_encoding_samples(start, end):
-	pass
+    while(end < len(array)):
+        if end - start + 1 >= 3: # Represents the number of samples
+            end = start + 3 - 1 # Fixing end if sample size is >3
+            print("10 bit encoding: ", array[start:end+1]) # send 3 samples [start, end] with 10 bits encoding
+            (start, end) = is_possible_3_encoding_samples(end + 1, end+1) # begin again with new start and new end
+            
+        elif is_in_range_10(array[end]): 
+            end += 1 # Increment number of samples
+        else:
+            (start, end) = is_possible_16_encoding_samples(start, end) # Not possible to encode the next sample with 4 bits
+    return (start, end)	
 
 def is_possible_16_encoding_samples(start, end):
-	pass
+    while(end < len(array)):
+        if end - start + 1 >= 2: # Represents the number of samples
+            end = start + 2 - 1 # Fixing end if sample size is >2
+            print("16 bit encoding: ", array[start:end+1]) # send 8 samples [start, end] with 16 bits encoding
+            (start, end) = is_possible_3_encoding_samples(end + 1, end+1) # begin again with new start and new end
+            
+        elif is_in_range_16(array[end]): 
+            end += 1 # Increment number of samples
+        else:
+            print("Out of range: array[end]")
+    return (start, end)	
+
 
 
 def main():
